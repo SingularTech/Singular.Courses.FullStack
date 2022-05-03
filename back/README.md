@@ -12,7 +12,7 @@
 [Link de Descarga](https://visualstudio.microsoft.com/downloads/)
 
 ### Azure Data Studio
-[Link de Descarga](https://go.microsoft.com/fwlink/?linkid=2193235/)
+[Link de Descarga](https://docs.microsoft.com/en-us/sql/azure-data-studio/download-azure-data-studio?view=sql-server-ver15)
 
 ### SQL Server
 [Link de Descarga](https://www.microsoft.com/es-es/sql-server/sql-server-downloads)
