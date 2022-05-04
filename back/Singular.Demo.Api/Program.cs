@@ -1,5 +1,4 @@
 using Singular.Demo.Api.Db;
-using Singular.Demo.Api.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,16 +24,16 @@ builder.Services.AddSwaggerGen(setupAction =>
      );
 });
 
+#region Storage
+
+var connectionString = "Data Source=Phones.db";
+builder.Services.AddSqlite<DbPhonesDbContext>(connectionString);
+
+#endregion
+
 #endregion
 
 var app = builder.Build();
-
-/*app.MapPost("/phone", (Phone phone) => { DbPhones.Add(phone); });
-app.MapPut("/phone", (Phone phone) => { DbPhones.Update(phone); });
-app.MapDelete("/phone", (int id) => { DbPhones.Delete(id); });
-app.MapGet("/phone", (int id) => { DbPhones.Get(id); });
-app.MapGet("/phones", () => { DbPhones.List(); });
-*/
 
 #region Documentación
 

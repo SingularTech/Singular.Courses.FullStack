@@ -8,37 +8,67 @@ namespace Singular.Demo.Api.Controllers
     [Route("api/phone")]
     public class PhoneController : Controller
     {
+        private readonly DbPhonesDbContext _dbPhonesDbContext;
+
+        public PhoneController(DbPhonesDbContext dbPhonesDbContext)
+            => _dbPhonesDbContext = dbPhonesDbContext;
+
         [HttpPost()]
         public IActionResult Add(Phone phone)
         {
-            DbPhones.Add(phone);
+            _dbPhonesDbContext.Phones.Add(phone);
+            _dbPhonesDbContext.SaveChanges();
+
             return Ok("Created");
         }
 
         [HttpPut()]
         public IActionResult Update(Phone phone)
         {
-            DbPhones.Update(phone);
+            var existing = _dbPhonesDbContext.Phones.FirstOrDefault(x => x.Id == phone.Id);
+
+            if (existing == null)
+                return NotFound();
+
+            existing.Brand = phone.Brand;
+            existing.Model = phone.Model;
+            existing.Number = phone.Number;
+
+            _dbPhonesDbContext.Update(existing);
+            _dbPhonesDbContext.SaveChanges();
+
             return Ok("Updated");
         }
 
         [HttpDelete()]
         public IActionResult Delete(int id)
         {
-            DbPhones.Delete(id);
-            return Ok("Updated");
+            var existing = _dbPhonesDbContext.Phones.FirstOrDefault(x => x.Id == id);
+
+            if (existing == null)
+                return NotFound();
+
+            _dbPhonesDbContext.Phones.Remove(existing);
+            _dbPhonesDbContext.SaveChanges();
+
+            return Ok("Deleted");
         }
 
         [HttpGet("{id}")]
         public ActionResult<Phone> Get(int id)
         {
-            return Ok(DbPhones.Get(id));
+            var existing = _dbPhonesDbContext.Phones.FirstOrDefault(x => x.Id == id);
+
+            if (existing == null)
+                return NotFound();
+
+            return Ok(existing);
         }
 
         [HttpGet()]
-        public ActionResult<Phone> Get()
+        public ActionResult<IEnumerable<Phone>> List()
         {
-            return Ok(DbPhones.List());
+            return Ok(_dbPhonesDbContext.Phones.ToList());
         }
     }
 }
