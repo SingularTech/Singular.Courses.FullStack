@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Singular.Demo.Api.Db;
 using Singular.Demo.Api.Models;
 
@@ -14,6 +15,7 @@ namespace Singular.Demo.Api.Controllers
             => _dbPhonesDbContext = dbPhonesDbContext;
 
         [HttpPost()]
+        [Authorize("create:phones")]
         public IActionResult Add(Phone phone)
         {
             _dbPhonesDbContext.Phones.Add(phone);
@@ -23,6 +25,7 @@ namespace Singular.Demo.Api.Controllers
         }
 
         [HttpPut()]
+        [Authorize("update:phones")]
         public IActionResult Update(Phone phone)
         {
             var existing = _dbPhonesDbContext.Phones.FirstOrDefault(x => x.Id == phone.Id);
@@ -41,6 +44,7 @@ namespace Singular.Demo.Api.Controllers
         }
 
         [HttpDelete()]
+        [Authorize("delete:phones")]
         public IActionResult Delete(int id)
         {
             var existing = _dbPhonesDbContext.Phones.FirstOrDefault(x => x.Id == id);
@@ -55,6 +59,7 @@ namespace Singular.Demo.Api.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize("get:phones")]
         public ActionResult<Phone> Get(int id)
         {
             var existing = _dbPhonesDbContext.Phones.FirstOrDefault(x => x.Id == id);
@@ -66,6 +71,7 @@ namespace Singular.Demo.Api.Controllers
         }
 
         [HttpGet()]
+        [Authorize("list:phones")]
         public ActionResult<IEnumerable<Phone>> List()
         {
             return Ok(_dbPhonesDbContext.Phones.ToList());
