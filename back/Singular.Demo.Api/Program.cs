@@ -26,8 +26,13 @@ builder.Services.AddSwaggerGen(setupAction =>
 
 #region Storage
 
+/*
 var connectionString = "Data Source=Phones.db";
 builder.Services.AddSqlite<DbPhonesDbContext>(connectionString);
+*/
+
+var connectionString = "Server=.;Initial Catalog=Phones;User ID=sa;Password=Pass@word1;";
+builder.Services.AddSqlServer<DbPhonesDbContext>(connectionString);
 
 #endregion
 

@@ -14,7 +14,8 @@ namespace Singular.Demo.Api.Db
         {
             base.OnConfiguring(optionsBuilder);
 
-            optionsBuilder.UseSqlite();
+            //optionsBuilder.UseSqlite();
+            optionsBuilder.UseSqlServer();
         }
 
         public DbSet<Phone> Phones { get; set; }
