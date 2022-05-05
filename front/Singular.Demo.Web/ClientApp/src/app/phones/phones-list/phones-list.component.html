@@ -1,0 +1,24 @@
+<h1>{{title | uppercase }}</h1>
+<div class="row">
+  <button class="btn btn-primary" (click)="onClear()">Clear</button>
+</div>
+<div [ngClass]="'row'" [ngStyle]="{ color: 'black'}">
+  <table class='table table-striped' aria-labelledby="tableLabel">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Brand</th>
+        <th>Model</th>
+        <th>Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let phone of phones">
+        <th>{{phone.id}}</th>
+        <th>{{phone.brand}}</th>
+        <th>{{phone.model}}</th>
+        <th>{{phone.number}}</th>
+      </tr>
+    </tbody>
+  </table>
+</div>
