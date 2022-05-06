@@ -16,6 +16,10 @@ const routes: Routes = [
   {
     path: 'new',
     component: PhonesFormComponent
+  },
+  {
+    path: 'edit/:id',
+    component: PhonesFormComponent
   }
 ]
 

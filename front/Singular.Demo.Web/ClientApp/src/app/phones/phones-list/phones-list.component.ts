@@ -31,4 +31,13 @@ export class PhonesListComponent implements OnInit {
   onClear() {
     this.phones = []
   }
+
+  onDelete(id: number) {
+    this.phonesService.delete(id).subscribe(_ => {
+      this.result = 'El teléfono fue eliminado correctamente... 😎';
+      setTimeout(() => {
+        this.onSearch();
+      }, 3000);
+    }, (_) => this.result = 'Hubo un error eliminando el teléfono... 😥');
+  }
 }

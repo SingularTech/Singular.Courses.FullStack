@@ -11,7 +11,7 @@
 </div>
 <div class="row">
   <div class="col-12">
-    <div class="alert" [ngClass]="'alert-danger'" *ngIf="result">
+    <div class="alert"  [ngClass]="result.includes('😥') ? 'alert-danger' : 'alert-success'" *ngIf="result">
       {{result}}
     </div>
   </div>
@@ -25,6 +25,7 @@
           <th>Brand</th>
           <th>Model</th>
           <th>Number</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -33,6 +34,10 @@
           <th>{{phone.brand}}</th>
           <th>{{phone.model}}</th>
           <th>{{phone.number}}</th>
+          <th>
+            <button class="btn btn-primary btn-sm mr-2" [routerLink]="['/phones/edit/'+phone.id]">Editar</button>
+            <button class="btn btn-danger btn-sm" (click)="onDelete(phone.id)">Eliminar</button>
+          </th>
         </tr>
       </tbody>
     </table>

@@ -10,15 +10,26 @@ import { PhonesService } from '../services/phones.service';
   styleUrls: ['./phones-form.component.css']
 })
 export class PhonesFormComponent implements OnInit {
+  id: number = 0;
   form!: FormGroup;
   result: string = '';
 
   constructor(
     private formBuilder: FormBuilder,
     private phonesService: PhonesService,
-    private routing: Router
+    private routing: Router,
+    private activatedRoute: ActivatedRoute
   ) {
+    this.activatedRoute.params.subscribe(params => {
+      this.id = params['id'] ? parseInt(params['id']) : 0;
+      this.loadPhone();
+    });
+  }
 
+  loadPhone() {
+    this.phonesService.get(this.id).subscribe(phone => {
+      this.form.patchValue(phone);
+    });
   }
 
   createForm() {
@@ -37,8 +48,17 @@ export class PhonesFormComponent implements OnInit {
   save() {
     let phone = new Phone({ ...this.form.value });
 
-    phone.id = phone.id ?? 0;
+    if (this.id == 0) {
+      phone.id = phone.id ?? 0;
+      this.create(phone);
+    }
+    else {
+      phone.id = this.id;
+      this.update(phone);
+    }
+  }
 
+  create(phone: Phone) {
     if (this.form.valid) {
       this.phonesService.create(phone).subscribe(_ => {
         this.result = 'El teléfono fue creado correctamente... 😎';
@@ -46,7 +66,21 @@ export class PhonesFormComponent implements OnInit {
           this.routing.navigate(['/phones']);
         }, 3000);
       }, error => {
-        this.result = 'Ocurrió un error guardando el teléfono... 😥';
+        this.result = 'Ocurrió un error crear el teléfono... 😥';
+        console.error(error);
+      });
+    }
+  }
+
+  update(phone: Phone) {
+    if (this.form.valid) {
+      this.phonesService.update(phone).subscribe(_ => {
+        this.result = 'El teléfono fue actualizado correctamente... 😎';
+        setTimeout(() => {
+          this.routing.navigate(['/phones']);
+        }, 3000);
+      }, error => {
+        this.result = 'Ocurrió un error actualizar el teléfono... 😥';
         console.error(error);
       });
     }
