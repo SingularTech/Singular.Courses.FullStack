@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Phone } from '../models/phone.model';
+import { PhonesService } from '../services/phones.service';
 
 @Component({
   selector: 'app-phones-list',
@@ -7,14 +9,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PhonesListComponent implements OnInit {
   title: string = 'Phones List';
+  result: string = '';
 
-  phones: any[] = [
-    { id: 1, brand: 'Samsung', model: 'S9', number: '+51968133858' }
-  ]
+  phones: Phone[] = []
 
-  constructor() { }
+  constructor(private phonesService: PhonesService) {
+
+  }
 
   ngOnInit(): void {
+    this.onSearch();
+  }
+
+  onSearch() {
+    this.phonesService.list().subscribe(response => {
+      this.phones = response;
+      this.result = '';
+    }, (_) => this.result = 'Ocurrió un error cargando los teléfonos... 😥');
   }
 
   onClear() {

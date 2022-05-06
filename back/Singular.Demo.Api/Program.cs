@@ -111,6 +111,17 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("list:phones", policy => policy.Requirements.Add(new HasScopeRequirement("list:phones", authority)));
 });
 
+builder.Services.AddCors(setupAction =>
+{
+    setupAction.AddPolicy("front", builder =>
+    {
+        builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 #endregion
 
 var app = builder.Build();
@@ -140,6 +151,8 @@ app.MapControllers();
 // 2. Enable authentication middleware
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors("front");
 
 #endregion
 

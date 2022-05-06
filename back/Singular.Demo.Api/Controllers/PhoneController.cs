@@ -16,17 +16,17 @@ namespace Singular.Demo.Api.Controllers
 
         [HttpPost()]
         [Authorize("create:phones")]
-        public IActionResult Add(Phone phone)
+        public ActionResult<Phone> Add(Phone phone)
         {
             _dbPhonesDbContext.Phones.Add(phone);
             _dbPhonesDbContext.SaveChanges();
 
-            return Ok("Created");
+            return Ok(phone);
         }
 
         [HttpPut()]
         [Authorize("update:phones")]
-        public IActionResult Update(Phone phone)
+        public ActionResult<Phone> Update(Phone phone)
         {
             var existing = _dbPhonesDbContext.Phones.FirstOrDefault(x => x.Id == phone.Id);
 
@@ -40,12 +40,12 @@ namespace Singular.Demo.Api.Controllers
             _dbPhonesDbContext.Update(existing);
             _dbPhonesDbContext.SaveChanges();
 
-            return Ok("Updated");
+            return Ok(phone);
         }
 
-        [HttpDelete()]
+        [HttpDelete("{id}")]
         [Authorize("delete:phones")]
-        public IActionResult Delete(int id)
+        public ActionResult<Phone> Delete(int id)
         {
             var existing = _dbPhonesDbContext.Phones.FirstOrDefault(x => x.Id == id);
 
@@ -55,7 +55,7 @@ namespace Singular.Demo.Api.Controllers
             _dbPhonesDbContext.Phones.Remove(existing);
             _dbPhonesDbContext.SaveChanges();
 
-            return Ok("Deleted");
+            return Ok(existing);
         }
 
         [HttpGet("{id}")]

@@ -1,24 +1,40 @@
-<h1>{{title | uppercase }}</h1>
+<h1 id="tableLabel">Phones List</h1>
+
+<p>This component shows the phones list.</p>
+
 <div class="row">
-  <button class="btn btn-primary" (click)="onClear()">Clear</button>
+  <div class="col-12 actions">
+    <button class="btn btn-primary mr-2" [routerLink]="['/phones/new']">New</button>
+    <button class="btn btn-primary mr-2" (click)="onSearch()">Search</button>
+    <button class="btn btn-secondary" (click)="onClear()">Clear</button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="alert" [ngClass]="'alert-danger'" *ngIf="result">
+      {{result}}
+    </div>
+  </div>
 </div>
 <div [ngClass]="'row'" [ngStyle]="{ color: 'black'}">
-  <table class='table table-striped' aria-labelledby="tableLabel">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Brand</th>
-        <th>Model</th>
-        <th>Number</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let phone of phones">
-        <th>{{phone.id}}</th>
-        <th>{{phone.brand}}</th>
-        <th>{{phone.model}}</th>
-        <th>{{phone.number}}</th>
-      </tr>
-    </tbody>
-  </table>
+  <div class="col-12">
+    <table class='table table-striped' aria-labelledby="tableLabel">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Brand</th>
+          <th>Model</th>
+          <th>Number</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let phone of phones">
+          <th>{{phone.id}}</th>
+          <th>{{phone.brand}}</th>
+          <th>{{phone.model}}</th>
+          <th>{{phone.number}}</th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
