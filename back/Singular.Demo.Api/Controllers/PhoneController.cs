@@ -72,9 +72,9 @@ namespace Singular.Demo.Api.Controllers
 
         [HttpGet()]
         [Authorize("list:phones")]
-        public ActionResult<IEnumerable<Phone>> List()
+        public ActionResult<IEnumerable<Phone>> List([FromQuery] string? q)
         {
-            return Ok(_dbPhonesDbContext.Phones.ToList());
+            return Ok(_dbPhonesDbContext.Phones.Where(x => string.IsNullOrEmpty(q) || x.Brand.Contains(q)).ToList());
         }
     }
 }

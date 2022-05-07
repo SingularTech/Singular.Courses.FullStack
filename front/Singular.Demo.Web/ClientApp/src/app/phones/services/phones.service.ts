@@ -21,5 +21,5 @@ export class PhonesService {
 
   get = (id: number): Observable<Phone> => this.httpClient.get<Phone>(`${this.backend}/${id}`);
 
-  list = (): Observable<Phone[]> => this.httpClient.get<Phone[]>(`${this.backend}`);
+  list = (q: string): Observable<Phone[]> => this.httpClient.get<Phone[]>(`${this.backend}?q=${q}`);
 }

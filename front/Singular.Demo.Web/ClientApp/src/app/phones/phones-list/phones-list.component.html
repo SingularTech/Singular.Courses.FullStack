@@ -3,15 +3,18 @@
 <p>This component shows the phones list.</p>
 
 <div class="row">
-  <div class="col-12 actions">
-    <button class="btn btn-primary mr-2" [routerLink]="['/phones/new']">New</button>
-    <button class="btn btn-primary mr-2" (click)="onSearch()">Search</button>
+  <div class="col-8">
+    <input type="text" class="form-control form-control-sm" [(ngModel)]="search" />
+  </div>
+  <div class="col-4 actions">
+    <button class="btn btn-success mr-2" [routerLink]="['/phones/new']">New</button>
+    <button class="btn btn-primary mr-2" (click)="onSearch(search)">Search</button>
     <button class="btn btn-secondary" (click)="onClear()">Clear</button>
   </div>
 </div>
 <div class="row">
   <div class="col-12">
-    <div class="alert"  [ngClass]="result.includes('😥') ? 'alert-danger' : 'alert-success'" *ngIf="result">
+    <div class="alert" [ngClass]="result.includes('😥') ? 'alert-danger' : 'alert-success'" *ngIf="result">
       {{result}}
     </div>
   </div>

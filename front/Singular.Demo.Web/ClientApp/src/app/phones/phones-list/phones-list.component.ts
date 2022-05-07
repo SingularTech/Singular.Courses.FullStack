@@ -10,7 +10,7 @@ import { PhonesService } from '../services/phones.service';
 export class PhonesListComponent implements OnInit {
   title: string = 'Phones List';
   result: string = '';
-
+  search: string = '';
   phones: Phone[] = []
 
   constructor(private phonesService: PhonesService) {
@@ -18,25 +18,26 @@ export class PhonesListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.onSearch();
+    this.onSearch('');
   }
 
-  onSearch() {
-    this.phonesService.list().subscribe(response => {
+  onSearch(q: string) {
+    this.phonesService.list(q ?? this.search).subscribe(response => {
       this.phones = response;
       this.result = '';
     }, (_) => this.result = 'Ocurrió un error cargando los teléfonos... 😥');
   }
 
   onClear() {
-    this.phones = []
+    this.search = '';
+    this.onSearch('');
   }
 
   onDelete(id: number) {
     this.phonesService.delete(id).subscribe(_ => {
       this.result = 'El teléfono fue eliminado correctamente... 😎';
       setTimeout(() => {
-        this.onSearch();
+        this.onSearch('');
       }, 3000);
     }, (_) => this.result = 'Hubo un error eliminando el teléfono... 😥');
   }
